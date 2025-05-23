@@ -1,5 +1,14 @@
 using MediatR;
+using Microsoft.Data.Sqlite;
+using Questao5.Application.Interfaces;
+using Questao5.Application.Interfaces.CommandStore;
+using Questao5.Application.Interfaces.QueryStore;
+using Questao5.Application.Services;
+using Questao5.Infrastructure.Database.CommandStore;
+using Questao5.Infrastructure.Database.QueryStore;
+using Questao5.Infrastructure.Services.Middlewares;
 using Questao5.Infrastructure.Sqlite;
+using System.Data;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +21,17 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 // sqlite
 builder.Services.AddSingleton(new DatabaseConfig { Name = builder.Configuration.GetValue<string>("DatabaseName", "Data Source=database.sqlite") });
 builder.Services.AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
+builder.Services.AddScoped<IDbConnection, SqliteConnection>((provider) => new SqliteConnection(builder.Configuration.GetValue<string>("DatabaseName", "Data Source=database.sqlite")));
+
+// injeção de dependencia de repositórios
+builder.Services.AddScoped<IContaCorrenteQueryStore, ContaCorrenteQueryStore>();
+builder.Services.AddScoped<IIdempotenciaQueryStore, IdempotenciaQueryStore>();
+
+builder.Services.AddScoped<IIdempotenciaCommandStore, IdempotenciaCommandStore>();
+builder.Services.AddScoped<IMovimentoCommandStore, MovimentoCommandStore>();
+
+// injeção de dependencia de serviços
+builder.Services.AddScoped<IInserirMovimentoService, InserirMovimentoService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthorization();
 
