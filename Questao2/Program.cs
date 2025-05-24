@@ -37,7 +37,6 @@ public class Program
     private static async Task<int> fetchTotalScoredPerTeamType(HttpClient client, string team, string teamType, int year, Func<CompetetionModel, int> teamGoalsSelector)
     {
         List<CompetetionModel> allFootbalMatch = new();
-        int totalFootballMatch = 0;
         int actualPage = 1;
 
         while(true)
@@ -50,7 +49,6 @@ public class Program
 
             if (data.Data.Length == 0) break;
 
-            totalFootballMatch = data.Data.Length;
             allFootbalMatch.AddRange(data.Data);
             actualPage++;
         }
