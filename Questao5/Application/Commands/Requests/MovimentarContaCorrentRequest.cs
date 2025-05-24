@@ -3,22 +3,33 @@ using MediatR;
 using Questao5.Application.Commands.Responses;
 using Questao5.Application.Common;
 using Questao5.Application.Commons.Enumerators;
-using System.ComponentModel;
 
 namespace Questao5.Application.Commands.Requests
 {
     public record MovimentarContaCorrenteRequest : IRequest<Resultado<MovimentarContaCorrenteResponse>>
     {
-        [DefaultValue("111379f4-e79b-4139-af29-bdd9a425909e")]
+        /// <summary>
+        /// Identificador único para a requisição
+        /// </summary>
+        /// <example>111379f4-e79b-4139-af29-bdd9a425909e</example>
         public string IdentificadorRequisicao { get; set; } = string.Empty;
 
-        [DefaultValue("FA99D033-7067-ED11-96C6-7C5DFA4A16C9")]
+        /// <summary>
+        /// Id da conta corrente
+        /// </summary>
+        /// <example>FA99D033-7067-ED11-96C6-7C5DFA4A16C9</example>
         public string ContaCorrenteId { get; set; } = string.Empty;
 
-        [DefaultValue(100)]
+        /// <summary>
+        /// Valor da movimentação
+        /// </summary>
+        /// <example>100</example>
         public decimal Valor { get; set; }
 
-        [DefaultValue("C")]
+        /// <summary>
+        /// Tipo da movimentação (C ou D)
+        /// </summary>
+        /// <example>C</example>
         public string TipoMovimento { get; set; } = string.Empty;
     }
 

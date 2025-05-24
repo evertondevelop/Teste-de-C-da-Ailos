@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.Data.Sqlite;
+using Microsoft.OpenApi.Models;
 using Questao5.Application.Interfaces;
 using Questao5.Application.Interfaces.CommandStore;
 using Questao5.Application.Interfaces.QueryStore;
@@ -35,7 +36,27 @@ builder.Services.AddScoped<IInserirMovimentoService, InserirMovimentoService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(
+    options =>
+    {
+        options.SwaggerDoc("v1", 
+            new OpenApiInfo { 
+                Title = "Serviço de Conta Bancária", 
+                Description = "O objetivo é desenvolver dois métodos de acordo com suas regras de negocío descritas no documento de auxílio Questão 5", 
+                Version = "v1",
+                Contact = new OpenApiContact { 
+                    Name = "Desenvolvedor", 
+                    Email = "wsantos.interview@hotmail.com",
+                    Url = new Uri("https://github.com/evertondevelop/Teste-de-C-da-Ailos")
+                }
+            }
+        );
+
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        options.IncludeXmlComments(xmlPath);
+    }
+);
 
 var app = builder.Build();
 

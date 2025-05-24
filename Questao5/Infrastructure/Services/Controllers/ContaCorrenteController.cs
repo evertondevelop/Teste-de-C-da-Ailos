@@ -9,6 +9,7 @@ using Questao5.Application.Queries.Responses;
 namespace Questao5.Infrastructure.Services.Controllers
 {
     [ApiController]
+    [Produces("application/json")]
     [Route("[controller]")]
     public class ContaCorrenteController : BaseController
     {
@@ -17,8 +18,10 @@ namespace Questao5.Infrastructure.Services.Controllers
         /// <summary>
         /// Consulta o saldo da conta corrente
         /// </summary>
-        /// <param name="ContaCorrenteId">B6BAFC09-6967-ED11-A567-055DFA4A16C9</param>
+        /// <param name="request">Id da conta corrente</param>
         /// <returns>Saldo bancário de conta corrente</returns>
+        /// <response code="200">Retorna dados da conta e saldo bancário.</response>
+        /// <response code="400">Retorna uma lista de erros de validação</response>
         [HttpGet("BuscarSaldoConta/{ContaCorrenteId}")]
         [ProducesResponseType(typeof(Resultado<SaldoContaCorrenteQueryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Resultado<>), StatusCodes.Status400BadRequest)]
@@ -31,11 +34,10 @@ namespace Questao5.Infrastructure.Services.Controllers
         /// <summary>
         /// Realiza movimentação de crédito ou débito na conta corrente
         /// </summary>
-        /// <param name="IdentificadorRequisicao">111379f4-e79b-4139-af29-bdd9a425909e</param>
-        /// <param name="ContaCorrenteId">FA99D033-7067-ED11-96C6-7C5DFA4A16C9</param>
-        /// <param name="Valor">100</param>
-        /// <param name="TipoMovimento">C</param>
+        /// <param name="request">Dados requeridos para movimentação</param>
         /// <returns>Id da movimentação realizada</returns>
+        /// <response code="200">Retorna o id da movimentação realizada.</response>
+        /// <response code="400">Retorna uma lista de erros de validação</response>
         [HttpPost("MovimentarConta")]
         [ProducesResponseType(typeof(Resultado<MovimentarContaCorrenteResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Resultado<>), StatusCodes.Status400BadRequest)]
