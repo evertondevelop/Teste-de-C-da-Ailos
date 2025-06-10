@@ -24,14 +24,14 @@ builder.Services.AddSingleton(new DatabaseConfig { Name = builder.Configuration.
 builder.Services.AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
 builder.Services.AddScoped<IDbConnection, SqliteConnection>((provider) => new SqliteConnection(builder.Configuration.GetValue<string>("DatabaseName", "Data Source=database.sqlite")));
 
-// injeção de dependencia de repositórios
+// injeï¿½ï¿½o de dependencia de repositï¿½rios
 builder.Services.AddScoped<IContaCorrenteQueryStore, ContaCorrenteQueryStore>();
 builder.Services.AddScoped<IIdempotenciaQueryStore, IdempotenciaQueryStore>();
 
 builder.Services.AddScoped<IIdempotenciaCommandStore, IdempotenciaCommandStore>();
 builder.Services.AddScoped<IMovimentoCommandStore, MovimentoCommandStore>();
 
-// injeção de dependencia de serviços
+// injeï¿½ï¿½o de dependencia de serviï¿½os
 builder.Services.AddScoped<IInserirMovimentoService, InserirMovimentoService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,8 +41,8 @@ builder.Services.AddSwaggerGen(
     {
         options.SwaggerDoc("v1", 
             new OpenApiInfo { 
-                Title = "Serviço de Conta Bancária", 
-                Description = "O objetivo é desenvolver dois métodos de acordo com suas regras de negocío descritas no documento de auxílio Questão 5", 
+                Title = "Serviï¿½o de Conta Bancï¿½ria", 
+                Description = "O objetivo ï¿½ desenvolver dois mï¿½todos de acordo com suas regras de negocï¿½o descritas no documento de auxï¿½lio Questï¿½o 5", 
                 Version = "v1",
                 Contact = new OpenApiContact { 
                     Name = "Desenvolvedor", 
@@ -60,12 +60,8 @@ builder.Services.AddSwaggerGen(
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -82,7 +78,7 @@ app.Services.GetService<IDatabaseBootstrap>().Setup();
 
 app.Run();
 
-// Informações úteis:
+// Informaï¿½ï¿½es ï¿½teis:
 // Tipos do Sqlite - https://www.sqlite.org/datatype3.html
 
 
